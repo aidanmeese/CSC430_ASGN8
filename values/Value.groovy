@@ -1,0 +1,3 @@
+package values
+
+interface Value { }
