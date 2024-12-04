@@ -1,10 +1,5 @@
-import expressions.ExprC
-
-public static void main(String[] args) {
-    MyFunction()
+class Main {
+    static void main(String[] args){
+        println 'Hello World!'
+    }
 }
-
-//
-//public void MyFunction(ExprC myObject) {
-//    switch
-//}
