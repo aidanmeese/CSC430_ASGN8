@@ -1,13 +1,13 @@
 package expressions
 
 class NumC implements ExprC {
-    private double n
+    private int n
 
-    NumC(double n) {
+    NumC(int n) {
         this.n = n
     }
 
-    double getN() {
+    int getN() {
         return this.n
     }
 }

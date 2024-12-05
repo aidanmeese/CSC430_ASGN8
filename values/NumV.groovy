@@ -1,13 +1,13 @@
 package values
 
 class NumV implements Value {
-    private double n
+    private int n
 
-    NumV(double num) {
+    NumV(int num) {
         this.n = num
     }
 
-    double getN() {
+    int getN() {
         return this.n
     }
 }
