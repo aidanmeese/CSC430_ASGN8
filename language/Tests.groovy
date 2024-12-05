@@ -81,4 +81,15 @@ class Tests {
         Assertions.assertEquals("5", Serializer.serialize(Interpreter.interp(app, Interpreter.getTopEnv())) )
     }
 
+    void interpPlus() {
+        List<String> parameters = ["x", "y"]
+        ExprC body = new AppC(
+                [new IdC("x"), new IdC("y")],
+                new IdC("+")
+        )
+        LamC lamC = new LamC(body, parameters)
+        Env env = new Env()
+        Value result = Serializer.serialize(Interpreter.interp(lamC, Interpreter.getTopEnv()))
+        Assertions.assertEquals()
+    }
 }
