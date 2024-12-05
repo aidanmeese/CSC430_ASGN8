@@ -57,6 +57,7 @@ class Tests {
     @Test
     void interpCondC() {
         CondC n = new CondC(new IdC("true"), new NumC(1), new NumC(2))
-        Assertions.assertEquals("1", Serializer.serialize(Interpreter.interp(n, new Env())))
+        Assertions.assertEquals("1", Serializer.serialize(Interpreter.interp(n, Interpreter.getTopEnv())))
     }
+
 }

@@ -8,6 +8,10 @@ class Env {
         this.env = init
     }
 
+    Env() {
+        this.env = new HashMap<>()
+    }
+
     Map<String, Value> getEnv() {
         return this.env
     }
