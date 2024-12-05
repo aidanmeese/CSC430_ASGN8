@@ -57,7 +57,7 @@ class Interpreter {
 
     static Value interpApplication(AppC exp, Env env) {
         Value func = interp(exp.function, env)
-        if (func instanceof PrimV) interpPrimitive((PrimV) func, env)
+        if (func instanceof PrimV) interpPrimitive((PrimV) func, exp.args.stream().map(item -> interp(item, env)).collect(Collectors.toList()), env)
         else if (func instanceof ClosV) {
             if (func.args.size() == exp.args.size()) {
                 return interp(func.getBody(), env.extendEnv(
@@ -82,7 +82,58 @@ class Interpreter {
         } else throw new RuntimeException("AAQZ Expected boolean, got " + test.class)
     }
 
-    static Value interpPrimitive(PrimV primitive, Env env) {
-        throw new Exception("This is not implemented yet.")
+    static Value interpPrimitive(PrimV primitive, List<Value> args, Env env) {
+        String op = primitive.getS()
+        if (args.size() == 2) {
+            Value a = args.get(0)
+            Value b = args.get(1)
+            switch (op) {
+                case ("+"):
+                    if((a.class == NumV.class) &&  (b.class == NumV.class)) {
+                        return new NumV((a as NumV).getN() + (b as NumV).getN())
+                    }
+                    else {
+                        throw new Exception("AAQZ: + operator not passed 2 numbers")
+                    }
+                    break
+                case ("-"):
+                    if((a.class == NumV.class) &&  (b.class == NumV.class)) {
+                        return new NumV((a as NumV).getN() - (b as NumV).getN())
+                    }
+                    else {
+                        throw new Exception("AAQZ: + operator not passed 2 numbers")
+                    }
+                    break
+                case ("*"):
+                    if((a.class == NumV.class) &&  (b.class == NumV.class)) {
+                        return new NumV((a as NumV).getN() * (b as NumV).getN())
+                    }
+                    else {
+                        throw new Exception("AAQZ: + operator not passed 2 numbers")
+                    }
+                    break
+                case ("/"):
+
+                    break
+                case ("<="):
+
+                    break
+                case ("equal?"):
+
+                    break
+                case ("error"):
+
+                    break
+            }
+        }
+        else {
+            if(op == "error") {
+                //Insert Error Func Here
+            }
+            else {
+                throw new Exception("AAQZ: Wrong amount of Arguements passed")
+            }
+        }
+
     }
 }
