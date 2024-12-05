@@ -4,6 +4,8 @@ import env.Env
 import expressions.*
 import values.*
 
+import java.util.stream.Collectors
+
 class Interpreter {
     static Value interp(ExprC ast, Env env) {
         switch(ast.class) {
@@ -45,7 +47,21 @@ class Interpreter {
     }
 
     static Value interpApplication(AppC exp, Env env) {
-        throw new Exception("This is not implemented yet.")
+        Value func = interp(exp.function, env)
+        if (func instanceof PrimV) interpPrimitive((PrimV) func, env)
+        else if (func instanceof ClosV) {
+            if (func.args.size() == exp.args.size()) {
+                return interp(func.getBody(), env.extendEnv(
+                        func.args, exp.args.stream().map(item -> interp(item, env)).collect(Collectors.toList())))
+            } else {
+                throw new RuntimeException(String.format(
+                        "AAQZ Cannot call function requiring %s parameters with %s arguments",
+                        func.args.size(), exp.args.size())
+                )
+            }
+        } else {
+            throw new RuntimeException("AAQZ Cannot call " + func.class)
+        }
     }
 
     static Value interpCondition(CondC exp, Env env) {
