@@ -7,6 +7,15 @@ import values.*
 import java.util.stream.Collectors
 
 class Interpreter {
+
+    static Env getTopEnv() {
+        Env pie = new Env()
+        List<String> ids = ["true", "false", "+", "-", "*", "/", "<=", "equal?", "error"]
+        List<Value> vals = [new BoolV(true), new BoolV(false), new PrimV("+"), new PrimV("-"), new PrimV("*"), new PrimV("/"), new PrimV("<="), new PrimV("equal?"), new PrimV("error")]
+
+        return pie.extendEnv(ids, vals)
+    }
+
     static Value interp(ExprC ast, Env env) {
         switch(ast.class) {
             case(NumC.class):
