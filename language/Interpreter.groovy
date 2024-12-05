@@ -52,7 +52,7 @@ class Interpreter {
     }
 
     static Value interpLambda(LamC exp, Env env) {
-        return new ClosV(exp.getParams(), exp.getBody(), env.copy())
+        return new ClosV(exp.getParams(), exp.getBody(), env)
     }
 
     static Value interpApplication(AppC exp, Env env) {
