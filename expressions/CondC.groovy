@@ -1,6 +1,6 @@
 package expressions
 
-class CondC {
+class CondC implements ExprC{
     private ExprC test
     private ExprC then
     private ExprC els
