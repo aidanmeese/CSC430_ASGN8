@@ -10,10 +10,10 @@ class LamC {
     }
 
     ExprC getBody() {
-        return this.test
+        return this.body
     }
 
-    List<String> getTest() {
-        return this.test
+    List<String> getParams() {
+        return this.parameters
     }
 }

@@ -1,8 +1,8 @@
 package language
 
+import env.Env
 import expressions.*
 import values.*
-import env.Env
 
 class Interpreter {
     static Value interp(ExprC ast, Env env) {
@@ -37,20 +37,27 @@ class Interpreter {
     }
 
     static Value interpId(IdC exp, Env env) {
-        return interp(env.lookup(exp.getId()))
+        return env.lookupValue(exp.getId())
     }
 
-    static Value interpLambda(LamC exp, Environment env) {
+    static Value interpLambda(LamC exp, Env env) {
+        return new ClosV(exp.getParams(), exp.getBody(), env.copy())
+    }
+
+    static Value interpApplication(AppC exp, Env env) {
         throw new Exception("This is not implemented yet.")
     }
 
-    static Value interpApplication(AppC exp, Environment env) {
-        throw new Exception("This is not implemented yet.")
+    static Value interpCondition(CondC exp, Env env) {
+        Value test = interp(exp.getTest(), env)
+        if (test instanceof BoolV) {
+            if (((BoolV)test).getB()) {
+                return interp(exp.getThen(), env)
+            } else return interp(exp.getElse(), env)
+        } else throw new RuntimeException("AAQZ Expected boolean, got " + test.class)
     }
 
-    static Value interpCondition(CondC exp, Environment env) {
+    static Value interpPrimitive(PrimV primitive, Env env) {
         throw new Exception("This is not implemented yet.")
     }
-
-
 }

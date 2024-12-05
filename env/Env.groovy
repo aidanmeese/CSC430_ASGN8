@@ -2,7 +2,14 @@ package env
 import values.Value
 
 class Env {
-    Map<String, Value> env = new HashMap<>();
+    Map<String, Value> env = new HashMap<>()
+
+    Env(Map<String, Value> init) {
+        this.env = init
+    }
+    Env() {
+        this.env = new HashMap<>()
+    }
 
     Value lookupValue(id) {
         if (env.get(id) == null) {
@@ -22,5 +29,13 @@ class Env {
         }
     }
 
-    
+    void put(String s, Value v) {
+        env.put(s, v)
+    }
+
+    // Duplicate the environment at the current instant in time
+    Env copy() {
+        Map<String, Value> newEnv = new HashMap<>(env)
+        return new Env(newEnv)
+    }
 }

@@ -7,7 +7,5 @@ class Main {
         // Example for how our program works
         def program = [["Hello", "Values"], "Hello"]
         println(serialize(interp(parse(program))))
-
-
     }
 }
