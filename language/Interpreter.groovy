@@ -101,34 +101,61 @@ class Interpreter {
                         return new NumV((a as NumV).getN() - (b as NumV).getN())
                     }
                     else {
-                        throw new Exception("AAQZ: + operator not passed 2 numbers")
+                        throw new Exception("AAQZ: - operator not passed 2 numbers")
                     }
                     break
                 case ("*"):
-                    if((a.class == NumV.class) &&  (b.class == NumV.class)) {
+                    if((a.class == NumV.class) && (b.class == NumV.class)) {
                         return new NumV((a as NumV).getN() * (b as NumV).getN())
+                    }
+                    else {
+                        throw new Exception("AAQZ: * operator not passed 2 numbers")
+                    }
+                    break
+                case ("/"):
+                    if((a.class == NumV.class) && (b.class == NumV.class) && ((b as NumV).getN() != 0)) {
+                        return new NumV((a as NumV).getN() as double / (b as NumV).getN() as double)
+                    }
+                    else {
+                        if ((b as NumV).getN() == 0) {
+                            throw new Exception("AAQZ: / Can't divide by 0")
+                        }
+                        else {
+                            throw new Exception("AAQZ: / operator not passed 2 numbers")
+                        }
+                    }
+                    break
+                case ("<="):
+                    if((a.class == NumV.class) &&  (b.class == NumV.class)) {
+                        return new BoolV((a as NumV).getN() >= (b as NumV).getN())
                     }
                     else {
                         throw new Exception("AAQZ: + operator not passed 2 numbers")
                     }
                     break
-                case ("/"):
-
-                    break
-                case ("<="):
-
-                    break
                 case ("equal?"):
-
-                    break
-                case ("error"):
-
-                    break
+                    if((a.class == NumV.class) &&  (b.class == NumV.class)) {
+                        return new BoolV((a as NumV).getN() == (b as NumV).getN())
+                    }
+                    else if ((a.class == BoolV.class) &&  (b.class == BoolV.class)) {
+                        return new BoolV((a as BoolV).getB() == (b as BoolV).getB())
+                    }
+                    else if ((a.class == StrV.class) &&  (b.class == StrV.class)) {
+                        return new BoolV((a as StrV).getS() == (b as StrV).getS())
+                    }
+                    else {
+                        throw new Exception("AAQZ: equal operator requires 2 of the same parameters")
+                    }
             }
         }
         else {
             if(op == "error") {
-                //Insert Error Func Here
+                if (args.get(0).class == StrV.class) {
+                    throw new Exception((args.get(0) as StrV).getS())
+                }
+                else {
+                    throw new Exception("AAQZ: error operator requires a single String")
+                }
             }
             else {
                 throw new Exception("AAQZ: Wrong amount of Arguements passed")

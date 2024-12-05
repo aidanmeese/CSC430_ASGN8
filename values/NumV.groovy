@@ -1,9 +1,9 @@
 package values
 
 class NumV implements Value {
-    private int n
+    private double n
 
-    NumV(int num) {
+    NumV(double num) {
         this.n = num
     }
 

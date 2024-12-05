@@ -1,9 +1,9 @@
 package expressions
 
 class NumC implements ExprC {
-    private int n
+    private double n
 
-    NumC(int n) {
+    NumC(double n) {
         this.n = n
     }
 
