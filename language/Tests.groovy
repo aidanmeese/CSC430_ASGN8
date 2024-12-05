@@ -60,4 +60,25 @@ class Tests {
         Assertions.assertEquals("1", Serializer.serialize(Interpreter.interp(n, Interpreter.getTopEnv())))
     }
 
+    @Test
+    void interpIdC() {
+        IdC n = new IdC("x")
+        Assertions.assertEquals("5", Serializer.serialize(Interpreter.interp(n, Interpreter.getTopEnv().extendEnv(["x"], [new NumV(5)]))))
+    }
+
+    @Test
+    void interpLamC() {
+        List<String> params = ["x"]
+        LamC lam = new LamC(new NumC(5), params)
+        Assertions.assertEquals("#<procedure>", Serializer.serialize(Interpreter.interp(lam, Interpreter.getTopEnv())) )
+    }
+
+    @Test
+    void interpAppC() {
+        List<String> params = ["x"]
+        LamC lam = new LamC(new NumC(5), params)
+        AppC app = new AppC([new NumC(3)], lam)
+        Assertions.assertEquals("5", Serializer.serialize(Interpreter.interp(app, Interpreter.getTopEnv())) )
+    }
+
 }

@@ -1,6 +1,6 @@
 package expressions
 
-class LamC {
+class LamC implements ExprC{
     private List<String> parameters
     private ExprC body
 

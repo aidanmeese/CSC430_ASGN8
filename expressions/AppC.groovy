@@ -1,6 +1,6 @@
 package expressions
 
-class AppC {
+class AppC implements ExprC{
     private List<ExprC> arguments
     private ExprC function
 
