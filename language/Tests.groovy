@@ -135,6 +135,65 @@ class Tests {
     }
 
     @Test
+    void interpCondNonBoolTest() {
+        CondC cond = new CondC(new NumC(3), new NumC(1), new NumC(2))
+        Exception exception = Assertions.assertThrows(RuntimeException.class, {
+            Interpreter.interpCondition(cond, Interpreter.getTopEnv())
+        })
+        Assertions.assertEquals("AAQZ Expected boolean, got class values.NumV", exception.getMessage())
+    }
+
+    @Test
+    void interpPrimPlusNonNum() {
+        PrimV primitive = new PrimV("+")
+        List<Value> args = [new BoolV(false), new StrV("hi!")]
+        Exception exception = Assertions.assertThrows(Exception.class, {
+            Interpreter.interpPrimitive(primitive, args, Interpreter.getTopEnv())
+        })
+        Assertions.assertEquals("AAQZ: + operator not passed 2 numbers", exception.getMessage())
+    }
+
+    @Test
+    void interpPrimMinusNonNum() {
+        PrimV primitive = new PrimV("-")
+        List<Value> args = [new NumV(3), new StrV("hahahahah")]
+        Exception exception = Assertions.assertThrows(Exception.class, {
+            Interpreter.interpPrimitive(primitive, args, Interpreter.getTopEnv())
+        })
+        Assertions.assertEquals("AAQZ: - operator not passed 2 numbers", exception.getMessage())
+    }
+
+    @Test
+    void interpPrimDivideNonNum() {
+        PrimV primitive = new PrimV("/")
+        List<Value> args = [new BoolV(true), new NumV(5)]
+        Exception exception = Assertions.assertThrows(Exception.class, {
+            Interpreter.interpPrimitive(primitive, args, Interpreter.getTopEnv())
+        })
+        Assertions.assertEquals("AAQZ: / operator not passed 2 numbers", exception.getMessage())
+    }
+
+    @Test
+    void interpPrimEqualDiffTypes() {
+        PrimV primitive = new PrimV("equal?")
+        List<Value> args = [new NumV(1), new StrV("narts!")]
+        Exception exception = Assertions.assertThrows(Exception.class, {
+            Interpreter.interpPrimitive(primitive, args, Interpreter.getTopEnv())
+        })
+        Assertions.assertEquals("AAQZ: equal operator requires 2 of the same parameters", exception.getMessage())
+    }
+
+    @Test
+    void interpPrimitiveErrorNonString() {
+        PrimV primitive = new PrimV("error")
+        List<Value> args = [new NumV(3)]
+        Exception exception = Assertions.assertThrows(Exception.class, {
+            Interpreter.interpPrimitive(primitive, args, Interpreter.getTopEnv())
+        })
+        Assertions.assertEquals("AAQZ: error operator requires a single String", exception.getMessage())
+    }
+
+    @Test
     //appc of a lamc to add 2 numbers
     void interpBind() {
         List<String> parameters = ["x", "y"]

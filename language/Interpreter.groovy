@@ -158,7 +158,7 @@ class Interpreter {
                 }
             }
             else {
-                throw new Exception("AAQZ: Wrong amount of Arguements passed")
+                throw new Exception("AAQZ: Wrong amount of Arguments passed")
             }
         }
 
