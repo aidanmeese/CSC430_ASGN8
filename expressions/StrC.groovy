@@ -10,4 +10,8 @@ class StrC implements ExprC {
     String getS() {
         return this.s
     }
+
+    String toString() {
+        return "StrC[s="+this.s+"]"
+    }
 }

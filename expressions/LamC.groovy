@@ -1,8 +1,8 @@
 package expressions
 
 class LamC implements ExprC{
-    private List<String> parameters
     private ExprC body
+    private List<String> parameters
 
     LamC(ExprC body, List<String> parameters) {
         this.parameters = parameters
@@ -15,5 +15,9 @@ class LamC implements ExprC{
 
     List<String> getParams() {
         return this.parameters
+    }
+
+    String toString() {
+        return "LamC[body=" + body + ", params=" + params + "]"
     }
 }

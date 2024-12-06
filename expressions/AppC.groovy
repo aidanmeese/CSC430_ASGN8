@@ -15,4 +15,8 @@ class AppC implements ExprC{
     List<ExprC> getArgs() {
         return this.arguments
     }
+
+    String toString() {
+        return "AppC[func="+this.function+", arguments="+this.arguments+"]"
+    }
 }

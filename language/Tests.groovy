@@ -1,4 +1,5 @@
 package language
+import static Main.topInterp
 import values.*
 import expressions.*
 import env.*
@@ -103,5 +104,84 @@ class Tests {
         ExprC bind = new AppC([new NumC(9), new NumC(10)], lam)
         String result = Serializer.serialize(Interpreter.interp(bind, Interpreter.getTopEnv()))
         Assertions.assertEquals("19.0", result)
+    }
+
+    @Test
+    void parseNum() {
+        def program = [1]
+        def ret = Parser.parse(program, Parser.getTopParseEnv())
+        Assertions.assertTrue(ret instanceof NumC)
+        Assertions.assertEquals(1d, ((NumC)ret).getN())
+
+        program = [1.0000d]
+        ret = Parser.parse(program, Parser.getTopParseEnv())
+        Assertions.assertTrue(ret instanceof NumC)
+        Assertions.assertEquals(1d, ((NumC)ret).getN())
+
+        program = [1.000]
+        ret = Parser.parse(program, Parser.getTopParseEnv())
+        Assertions.assertTrue(ret instanceof NumC)
+        Assertions.assertEquals(1d, ((NumC)ret).getN())
+    }
+
+    @Test
+    void parseStr() {
+        def program = ["String"]
+        def ret = Parser.parse(program, Parser.getTopParseEnv())
+        Assertions.assertTrue(ret instanceof StrC)
+        Assertions.assertEquals("String", ((StrC)ret).getS())
+    }
+
+    @Test
+    void parseId() {
+        def program = ["+"]
+        def ret = Parser.parse(program, Parser.getTopParseEnv())
+        Assertions.assertTrue(ret instanceof IdC)
+        Assertions.assertEquals("+", ((IdC)ret).getId())
+    }
+
+    @Test
+    void parseLambda() {
+        def program = [["x", "y", "z"], "=>", 1]
+        def ret = Parser.parse(program, Parser.getTopParseEnv())
+        Assertions.assertTrue(ret instanceof LamC)
+        ret = (LamC) ret
+        Assertions.assertTrue(ret.getBody() instanceof NumC)
+        Assertions.assertEquals(1, ((NumC)ret.getBody()).getN())
+        Assertions.assertLinesMatch(List.of("x", "y", "z"), ret.getParams())
+    }
+
+    @Test
+    void parseAppC() {
+        def program = ["+", 1, 5]
+        def ret = Parser.parse(program, Parser.getTopParseEnv())
+        AppC expect = new AppC(List.of(new NumC(1), new NumC(5)), new IdC("+"))
+        Assertions.assertEquals(ret.toString(), expect.toString())
+
+        program = [[["x", "y"], "=>", ["+", "x", "y"]], 1, 2]
+        ret = Parser.parse(program, Parser.getTopParseEnv())
+        expect = new AppC(List.of(new NumC(1), new NumC(2)), new LamC(new NumC(1), List.of("x", "y", "z")))
+        Assertions.assertEquals(ret.toString(), expect.toString())
+    }
+
+    @Test
+    void parseWithVars() {
+        def program = [[["x", "y"], "=>", ["+", "x", "y"]], 1, 2]
+        def ret = Parser.parse(program, Parser.getTopParseEnv())
+        def expect = new AppC(
+                List.of(new NumC(1), new NumC(2)),
+                new LamC(
+                        new AppC(
+                                List.of(new IdC("x"), new IdC("y")),
+                                new IdC("+")
+                        ),
+                        List.of("x", "y")))
+        Assertions.assertEquals(ret.toString(), expect.toString())
+    }
+
+    @Test
+    void testTopInterp() {
+        def program = [[["x", "y"], "=>", ["+", "x", "y"]], 1, 2]
+        Assertions.assertEquals(topInterp(program), "3.0")
     }
 }

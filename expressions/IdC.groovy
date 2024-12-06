@@ -10,4 +10,8 @@ class IdC implements ExprC{
     String getId() {
         return this.symbol
     }
+
+    String toString() {
+        return "IdC[id="+this.id+"]"
+    }
 }

@@ -10,4 +10,8 @@ class NumC implements ExprC {
     double getN() {
         return this.n
     }
+
+    String toString() {
+        return "NumC[n="+this.n+"]"
+    }
 }

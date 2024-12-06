@@ -48,7 +48,7 @@ class Interpreter {
     }
 
     static Value interpId(IdC exp, Env env) {
-        return env.lookupValue(exp.getId())
+        return env.lookup(exp.getId())
     }
 
     static Value interpLambda(LamC exp, Env env) {

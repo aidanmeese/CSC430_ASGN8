@@ -2,7 +2,7 @@ package env
 import values.Value
 
 class Env {
-    private Map<String, Value> env = new HashMap<>()
+    private Map<String, Value> env
 
     Env(Map<String, Value> init) {
         this.env = init
@@ -16,7 +16,7 @@ class Env {
         return this.env
     }
 
-    Value lookupValue(id) {
+    Value lookup(String id) {
         if (env.get(id) == null) {
             throw new Exception("AAQZ this id does not have a value")
         }

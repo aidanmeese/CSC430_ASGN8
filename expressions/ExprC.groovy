@@ -1,3 +1,5 @@
 package expressions
 
-interface ExprC { }
+interface ExprC {
+    String toString()
+}

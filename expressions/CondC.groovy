@@ -20,4 +20,8 @@ class CondC implements ExprC{
     ExprC getElse() {
         return this.els
     }
+
+    String toString() {
+        return "CondC[test="+this.test+", then="+this.then+", else="+this.else+"]"
+    }
 }
