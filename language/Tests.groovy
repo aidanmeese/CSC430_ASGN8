@@ -93,6 +93,48 @@ class Tests {
     }
 
     @Test
+    void interpMinus() {
+        ExprC body = new AppC(
+                [new NumC(40), new NumC(45)],
+                new IdC("-")
+        )
+        String result = Serializer.serialize(Interpreter.interp(body, Interpreter.getTopEnv()))
+        Assertions.assertEquals("-5.0", result)
+    }
+
+    @Test
+    void interpMult() {
+        ExprC body = new AppC(
+                [new NumC(2.5), new NumC(2.5)],
+                new IdC("*")
+        )
+        String result = Serializer.serialize(Interpreter.interp(body, Interpreter.getTopEnv()))
+        Assertions.assertEquals("6.25", result)
+    }
+
+    @Test
+    void interpDivide() {
+        ExprC body = new AppC(
+                [new NumC(40), new NumC(4)],
+                new IdC("/")
+        )
+        String result = Serializer.serialize(Interpreter.interp(body, Interpreter.getTopEnv()))
+        Assertions.assertEquals("10.0", result)
+    }
+
+    @Test
+    void interpDivideZero() {
+        ExprC body = new AppC(
+                [new NumC(40), new NumC(0)],
+                new IdC("/")
+        )
+        Exception exception = Assertions.assertThrows(Exception.class, {
+            Interpreter.interp(body, Interpreter.getTopEnv())
+        })
+        Assertions.assertEquals("AAQZ: / Can't divide by 0", exception.getMessage())
+    }
+
+    @Test
     //appc of a lamc to add 2 numbers
     void interpBind() {
         List<String> parameters = ["x", "y"]
