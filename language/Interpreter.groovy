@@ -127,7 +127,7 @@ class Interpreter {
                     break
                 case ("<="):
                     if((a.class == NumV.class) &&  (b.class == NumV.class)) {
-                        return new BoolV((a as NumV).getN() >= (b as NumV).getN())
+                        return new BoolV((a as NumV).getN() <= (b as NumV).getN())
                     }
                     else {
                         throw new Exception("AAQZ: + operator not passed 2 numbers")

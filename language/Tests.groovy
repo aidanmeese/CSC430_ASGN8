@@ -94,7 +94,7 @@ class Tests {
 
     @Test
     //appc of a lamc to add 2 numbers
-    void bigInterp() {
+    void interpBind() {
         List<String> parameters = ["x", "y"]
         ExprC body = new AppC(
                 [new IdC("x"), new IdC("y")],
@@ -106,6 +106,7 @@ class Tests {
         Assertions.assertEquals("19.0", result)
     }
 
+    //Parser
     @Test
     void parseNum() {
         def program = [1]
@@ -160,8 +161,8 @@ class Tests {
 
         program = [[["x", "y"], "=>", ["+", "x", "y"]], 1, 2]
         ret = Parser.parse(program, Parser.getTopParseEnv())
-        expect = new AppC(List.of(new NumC(1), new NumC(2)), new LamC(new NumC(1), List.of("x", "y", "z")))
-        Assertions.assertEquals(ret.toString(), expect.toString())
+        expect = new AppC(List.of(new NumC(1), new NumC(2)), new LamC(new AppC(List.of(new IdC("x"), new IdC("y")), new IdC("+")), List.of("x","y")))
+        Assertions.assertEquals(expect.toString(), ret.toString())
     }
 
     @Test
@@ -179,9 +180,16 @@ class Tests {
         Assertions.assertEquals(ret.toString(), expect.toString())
     }
 
+    //Top-Interp
     @Test
     void testTopInterp() {
         def program = [[["x", "y"], "=>", ["+", "x", "y"]], 1, 2]
         Assertions.assertEquals(topInterp(program), "3.0")
+    }
+
+    @Test
+    void BigTopInterp() {
+        def program = [[["x", "y"], "=>", ["if", ["<=", "x", "y"], "y", "x"]], 1, 2]
+        Assertions.assertEquals("2.0", topInterp(program))
     }
 }
