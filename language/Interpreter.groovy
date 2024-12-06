@@ -114,7 +114,7 @@ class Interpreter {
                     break
                 case ("/"):
                     if((a.class == NumV.class) && (b.class == NumV.class) && ((b as NumV).getN() != 0)) {
-                        return new NumV((a as NumV).getN() as double / (b as NumV).getN() as double)
+                        return new NumV((a as NumV).getN() / (b as NumV).getN())
                     }
                     else {
                         if ((b as NumV).getN() == 0) {

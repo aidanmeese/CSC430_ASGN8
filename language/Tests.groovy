@@ -10,7 +10,7 @@ class Tests {
     @Test
     void serializeNumV() {
         NumV n = new NumV(3)
-        Assertions.assertEquals("3", Serializer.serialize(n))
+        Assertions.assertEquals("3.0", Serializer.serialize(n))
     }
 
     @Test
@@ -57,13 +57,13 @@ class Tests {
     @Test
     void interpCondC() {
         CondC n = new CondC(new IdC("true"), new NumC(1), new NumC(2))
-        Assertions.assertEquals("1", Serializer.serialize(Interpreter.interp(n, Interpreter.getTopEnv())))
+        Assertions.assertEquals("1.0", Serializer.serialize(Interpreter.interp(n, Interpreter.getTopEnv())))
     }
 
     @Test
     void interpIdC() {
         IdC n = new IdC("x")
-        Assertions.assertEquals("5", Serializer.serialize(Interpreter.interp(n, Interpreter.getTopEnv().extendEnv(["x"], [new NumV(5)]))))
+        Assertions.assertEquals("5.0", Serializer.serialize(Interpreter.interp(n, Interpreter.getTopEnv().extendEnv(["x"], [new NumV(5)]))))
     }
 
     @Test
@@ -78,18 +78,30 @@ class Tests {
         List<String> params = ["x"]
         LamC lam = new LamC(new NumC(5), params)
         AppC app = new AppC([new NumC(3)], lam)
-        Assertions.assertEquals("5", Serializer.serialize(Interpreter.interp(app, Interpreter.getTopEnv())) )
+        Assertions.assertEquals("5.0", Serializer.serialize(Interpreter.interp(app, Interpreter.getTopEnv())) )
     }
 
+    @Test
     void interpPlus() {
+        ExprC body = new AppC(
+                [new NumC(3), new NumC(4)],
+                new IdC("+")
+        )
+        String result = Serializer.serialize(Interpreter.interp(body, Interpreter.getTopEnv()))
+        Assertions.assertEquals("7.0", result)
+    }
+
+    @Test
+    //appc of a lamc to add 2 numbers
+    void bigInterp() {
         List<String> parameters = ["x", "y"]
         ExprC body = new AppC(
                 [new IdC("x"), new IdC("y")],
                 new IdC("+")
         )
-        LamC lamC = new LamC(body, parameters)
-        Env env = new Env()
-        Value result = Serializer.serialize(Interpreter.interp(lamC, Interpreter.getTopEnv()))
-        Assertions.assertEquals()
+        LamC lam = new LamC(body, parameters)
+        ExprC bind = new AppC([new NumC(9), new NumC(10)], lam)
+        String result = Serializer.serialize(Interpreter.interp(bind, Interpreter.getTopEnv()))
+        Assertions.assertEquals("19.0", result)
     }
 }

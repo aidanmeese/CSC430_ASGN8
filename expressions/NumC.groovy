@@ -7,7 +7,7 @@ class NumC implements ExprC {
         this.n = n
     }
 
-    int getN() {
+    double getN() {
         return this.n
     }
 }

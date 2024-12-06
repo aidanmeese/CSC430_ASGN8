@@ -7,7 +7,7 @@ class NumV implements Value {
         this.n = num
     }
 
-    int getN() {
+    double getN() {
         return this.n
     }
 }
